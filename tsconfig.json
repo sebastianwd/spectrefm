@@ -6,7 +6,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["dom", "es2017"],
+    "lib": ["dom", "es2017", "ESNext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -15,9 +15,26 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
-    "target": "esnext"
+    "strict": false,
+    "target": "ES6",
+    "baseUrl": ".",
+    "rootDir": "src",
+    "paths": {
+      "@components": ["src/components"],
+      "@gql": ["src/gql"],
+      "@gql/*": ["src/gql/*"],
+      "@providers": ["src/providers"],
+      "@generated/*": ["src/__generated__/*"]
+    }
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "apollo.config.js",
+    "next.config.js",
+    ".eslintrc.js",
+    "src/**/*",
+    "interfaces",
+    "pages"
+  ]
 }
