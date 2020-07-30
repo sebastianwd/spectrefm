@@ -56,6 +56,7 @@ module.exports = {
     'global-require': 0,
     'react/jsx-props-no-spreading': 0,
     '@typescript-eslint/lines-between-class-members': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
     'graphql/template-strings': [
       'error',
       {
