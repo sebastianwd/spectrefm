@@ -1,6 +1,8 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
-import 'styled-components'
+/// <reference types="styled-components/cssprop" />
+import { Theme } from '@material-ui/core'
+import { CSSProp, DefaultTheme } from 'styled-components'
 
 declare module '*.svg' {
   const value: any
@@ -12,12 +14,12 @@ declare module '*.png' {
 }
 
 declare module 'styled-components' {
-  export interface DefaultTheme {
-    borderRadius: string
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DefaultTheme extends Theme {}
+}
 
-    colors: {
-      main: string
-      secondary: string
-    }
+declare module 'react' {
+  interface DOMAttributes<T> {
+    css?: CSSProp<DefaultTheme>
   }
 }

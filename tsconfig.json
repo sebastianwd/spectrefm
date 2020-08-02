@@ -24,7 +24,8 @@
       "@gql": ["src/gql"],
       "@gql/*": ["src/gql/*"],
       "@providers": ["src/providers"],
-      "@generated/*": ["src/__generated__/*"]
+      "@generated/*": ["src/__generated__/*"],
+      "@theme": ["src/theme"]
     }
   },
   "exclude": ["node_modules"],

@@ -6,42 +6,64 @@ import NextDocument, {
   NextScript,
   DocumentContext,
 } from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
+import { ServerStyleSheet as StyledComponentSheets } from 'styled-components'
+import { ServerStyleSheets as MaterialUiServerStyleSheets } from '@material-ui/core/styles'
+import theme from '@theme'
 
 class Document extends NextDocument {
   static async getInitialProps(ctx: DocumentContext) {
-    const sheet = new ServerStyleSheet()
+    const styledComponentSheet = new StyledComponentSheets()
+
+    const materialUiSheets = new MaterialUiServerStyleSheets()
+
     const originalRenderPage = ctx.renderPage
 
     try {
       ctx.renderPage = () =>
         originalRenderPage({
           enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
+            styledComponentSheet.collectStyles(
+              materialUiSheets.collect(<App {...props} />)
+            ),
         })
 
       const initialProps = await NextDocument.getInitialProps(ctx)
 
-      const styles = (
-        <>
+      const styles = [
+        <React.Fragment key="styles">
           {initialProps.styles}
-          {sheet.getStyleElement()}
-        </>
-      )
+          {materialUiSheets.getStyleElement()}
+          {styledComponentSheet.getStyleElement()}
+        </React.Fragment>,
+      ]
 
       return {
         ...initialProps,
         styles,
       }
     } finally {
-      sheet.seal()
+      styledComponentSheet.seal()
     }
   }
 
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600;700&display=swap"
+            rel="stylesheet"
+          />
+          <meta name="theme-color" content={theme.palette.primary.main} />
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width"
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />

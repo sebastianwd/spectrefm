@@ -1,4 +1,8 @@
 {
   "presets": ["next/babel"],
-  "plugins": [["graphql-tag"], ["styled-components", { "ssr": true }]]
+  "plugins": [
+    ["graphql-tag"],
+    ["styled-components", { "ssr": true }],
+    "react-optimized-image/plugin"
+  ]
 }

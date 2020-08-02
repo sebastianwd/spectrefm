@@ -143,3 +143,14 @@ export type LoginMutation = { __typename?: 'Mutation' } & {
     >
   >
 }
+
+export type MeQueryVariables = Exact<{ [key: string]: never }>
+
+export type MeQuery = { __typename?: 'Query' } & {
+  me: Maybe<
+    { __typename?: 'User' } & Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'fullName' | 'lastName'
+    >
+  >
+}
