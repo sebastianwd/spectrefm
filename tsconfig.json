@@ -29,13 +29,5 @@
     }
   },
   "exclude": ["node_modules"],
-  "include": [
-    "next-env.d.ts",
-    "apollo.config.js",
-    "next.config.js",
-    ".eslintrc.js",
-    "src/**/*",
-    "interfaces",
-    "pages"
-  ]
+  "include": ["next-env.d.ts", "*.js", "src/**/*", "interfaces", "pages"]
 }
