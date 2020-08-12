@@ -2,7 +2,7 @@ import React from 'react'
 import { SvgIcon, SvgIconTypeMap } from '@material-ui/core'
 import { OverridableComponent } from '@material-ui/core/OverridableComponent'
 
-export const MusicFolderIcon: OverridableComponent<SvgIconTypeMap> = (
+export const MusicFolderIcon: React.FC<OverridableComponent<SvgIconTypeMap>> = (
   props
 ) => (
   <SvgIcon {...props} viewBox="0 0 36 28" style={{ marginBottom: 3 }}>
@@ -10,7 +10,9 @@ export const MusicFolderIcon: OverridableComponent<SvgIconTypeMap> = (
   </SvgIcon>
 )
 
-export const HomeIcon: OverridableComponent<SvgIconTypeMap> = (props) => (
+export const HomeIcon: React.FC<OverridableComponent<SvgIconTypeMap>> = (
+  props
+) => (
   <SvgIcon {...props} viewBox="0 0 24 24">
     <path d="M3 10v11h6v-7h6v7h6v-11L12,3z" />
   </SvgIcon>
