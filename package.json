@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "yarn run codegen && next",
-    "build": "next build --no-verify",
+    "build": "next build",
     "start": "next start",
     "update": "ncu -u",
     "type-check": "tsc",
