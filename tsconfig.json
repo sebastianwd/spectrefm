@@ -15,7 +15,7 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "target": "ES6",
     "baseUrl": ".",
     "rootDir": "src",
@@ -25,7 +25,13 @@
       "@gql/*": ["src/gql/*"],
       "@providers": ["src/providers"],
       "@generated/*": ["src/__generated__/*"],
-      "@theme": ["src/theme"]
+      "@theme": ["src/theme"],
+      "@screens": ["src/screens"],
+      "@utils": ["src/utils"],
+      "@constants": ["src/constants.ts"],
+      "@state": ["src/state"],
+      "@state/*": ["src/state/*"],
+      "@hooks": ["src/hooks"]
     }
   },
   "exclude": ["node_modules", ".next"],

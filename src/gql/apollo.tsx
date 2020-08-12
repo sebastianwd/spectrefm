@@ -21,7 +21,7 @@ function createApolloClient() {
 }
 
 export function initializeApollo(
-  initialState: NormalizedCacheObject = null
+  initialState: NormalizedCacheObject | null = null
 ): ApolloClient<NormalizedCacheObject> {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const _apolloClient = apolloClient ?? createApolloClient()

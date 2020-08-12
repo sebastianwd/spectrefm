@@ -52,10 +52,14 @@ class Document extends NextDocument {
         <Head>
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            href="https://fonts.googleapis.com/css?family=Roboto:200,400,500,700&display=swap"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;700&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap&text=SpectreFM"
             rel="stylesheet"
           />
           <meta name="theme-color" content={theme.palette.primary.main} />

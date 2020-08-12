@@ -1,19 +1,19 @@
 import { User } from '@generated/graphql'
 
-interface AppConfig {
+export interface StoreModel {
   user: Partial<User>
+  layout: {
+    leftDrawerWidth: number
+  }
 }
 
-interface StoreModel {
-  appConfig: AppConfig
-}
-
-const appConfig: AppConfig = {
-  user: {},
-}
+// -----------------
 
 const storeModel: StoreModel = {
-  appConfig,
+  user: {},
+  layout: {
+    leftDrawerWidth: 140,
+  },
 }
 
 export default storeModel

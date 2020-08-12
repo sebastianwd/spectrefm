@@ -1,6 +1,8 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
 /// <reference types="styled-components/cssprop" />
+/// <reference types='@material-ui/lab/themeAugmentation' />
+
 import { Theme } from '@material-ui/core'
 import { CSSProp, DefaultTheme } from 'styled-components'
 

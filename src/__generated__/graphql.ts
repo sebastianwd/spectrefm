@@ -1,4 +1,6 @@
-export type Maybe<T> = T | null
+export type Maybe<T> = T extends PromiseLike<infer U>
+  ? Promise<U | null>
+  : T | null
 export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -12,24 +14,24 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query'
   me: Maybe<User>
-  topTracksByArtist: Maybe<Array<Track>>
-  similarArtists: Maybe<Array<Artist>>
+  topTracksByArtist: Array<Track>
+  similarArtists: Array<Artist>
   artist: Maybe<Artist>
-  searchArtists: Maybe<Array<Scalars['String']>>
+  searchArtists: Array<Scalars['String']>
   albumByTrack: Maybe<Album>
   album: Maybe<Album>
   albumsByArtist: Maybe<Array<Album>>
 }
 
 export type QueryTopTracksByArtistArgs = {
-  page: Maybe<Scalars['Float']>
-  limit: Maybe<Scalars['Float']>
+  page: Maybe<Scalars['Int']>
+  limit: Maybe<Scalars['Int']>
   artistName: Scalars['String']
 }
 
 export type QuerySimilarArtistsArgs = {
   withInfo?: Maybe<Scalars['Boolean']>
-  limit?: Maybe<Scalars['Float']>
+  limit?: Maybe<Scalars['Int']>
   artistName: Scalars['String']
 }
 
@@ -38,7 +40,7 @@ export type QueryArtistArgs = {
 }
 
 export type QuerySearchArtistsArgs = {
-  limit?: Maybe<Scalars['Float']>
+  limit?: Maybe<Scalars['Int']>
   artistName: Scalars['String']
 }
 
@@ -133,6 +135,26 @@ export type LoginInput = {
   password: Scalars['String']
 }
 
+export type ArtistFragment = { __typename?: 'Artist' } & Pick<
+  Artist,
+  | 'id'
+  | 'bannerImage'
+  | 'biography'
+  | 'disbanded'
+  | 'disbandedYear'
+  | 'facebook'
+  | 'formedYear'
+  | 'genre'
+  | 'image'
+  | 'location'
+  | 'logo'
+  | 'memberQuantity'
+  | 'name'
+  | 'style'
+  | 'twitter'
+  | 'website'
+>
+
 export type LoginMutationVariables = Exact<{ [key: string]: never }>
 
 export type LoginMutation = { __typename?: 'Mutation' } & {
@@ -144,6 +166,14 @@ export type LoginMutation = { __typename?: 'Mutation' } & {
   >
 }
 
+export type ArtistQueryVariables = Exact<{
+  artistName: Scalars['String']
+}>
+
+export type ArtistQuery = { __typename?: 'Query' } & {
+  artist: Maybe<{ __typename?: 'Artist' } & ArtistFragment>
+}
+
 export type MeQueryVariables = Exact<{ [key: string]: never }>
 
 export type MeQuery = { __typename?: 'Query' } & {
@@ -151,6 +181,40 @@ export type MeQuery = { __typename?: 'Query' } & {
     { __typename?: 'User' } & Pick<
       User,
       'id' | 'email' | 'firstName' | 'fullName' | 'lastName'
+    >
+  >
+}
+
+export type SearchArtistsQueryVariables = Exact<{
+  artistName: Scalars['String']
+  limit: Maybe<Scalars['Int']>
+}>
+
+export type SearchArtistsQuery = { __typename?: 'Query' } & Pick<
+  Query,
+  'searchArtists'
+>
+
+export type SimilarArtistsQueryVariables = Exact<{
+  artistName: Scalars['String']
+  limit: Maybe<Scalars['Int']>
+}>
+
+export type SimilarArtistsQuery = { __typename?: 'Query' } & {
+  similarArtists: Array<{ __typename?: 'Artist' } & ArtistFragment>
+}
+
+export type TopTracksByArtisQueryVariables = Exact<{
+  artistName: Scalars['String']
+  limit: Maybe<Scalars['Int']>
+  page: Maybe<Scalars['Int']>
+}>
+
+export type TopTracksByArtisQuery = { __typename?: 'Query' } & {
+  topTracksByArtist: Array<
+    { __typename?: 'Track' } & Pick<
+      Track,
+      'id' | 'title' | 'artistName' | 'playcount'
     >
   >
 }

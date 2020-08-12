@@ -9,6 +9,12 @@ const theme = createMuiTheme({
           textDecoration: 'none',
           color: 'currentColor',
         },
+        p: {
+          wordBreak: 'break-word',
+        },
+        li: {
+          listStyle: 'none',
+        },
       },
     },
   },
@@ -20,13 +26,12 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      main: '#121212',
-      light: '#161616',
+      main: 'rgb(0, 90, 194)',
     },
     secondary: {
-      main: '#0E0E0E',
+      main: '#121212',
       dark: '#0C0C0C',
-      light: '#121212',
+      light: '#171717',
     },
     error: {
       main: colors.red.A400,
@@ -36,15 +41,20 @@ const theme = createMuiTheme({
     },
     background: {
       paper: '#121212',
-      default: '#0C0C0C',
+      default: '#0E0E0E',
+    },
+    text: {
+      primary: '#DBDBDB',
+      secondary: '#ACACAC',
     },
   },
   typography: {
     button: {
       textTransform: 'none',
     },
+    fontWeightLight: 200,
     fontFamily: [
-      'Nunito',
+      'Poppins',
       'Roboto',
       '"Helvetica Neue"',
       'Arial',
@@ -55,5 +65,12 @@ const theme = createMuiTheme({
     ].join(','),
   },
 })
+
+theme.typography.h2 = {
+  ...theme.typography.h2,
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '2rem',
+  },
+}
 
 export default theme
