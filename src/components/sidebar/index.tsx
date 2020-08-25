@@ -42,7 +42,7 @@ const StyledDrawer = styled(Drawer)<{ width: number }>`
 
 const Content = styled.aside`
   padding: ${(props) => props.theme.spacing(5)}px 0;
-  background-color: ${(props) => props.theme.palette.secondary.main};
+  background-color: ${(props) => props.theme.palette.background.paper};
   border-radius: ${(props) => props.theme.spacing(5)}px;
   display: flex;
   flex-direction: column;

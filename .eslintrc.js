@@ -35,7 +35,6 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-
   plugins: [
     '@typescript-eslint',
     'jsx-a11y',
@@ -44,6 +43,8 @@ module.exports = {
     'graphql',
   ],
   rules: {
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -57,6 +58,8 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     '@typescript-eslint/lines-between-class-members': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    'jsx-a11y/anchor-is-valid': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
     'graphql/template-strings': [
       'error',
       {

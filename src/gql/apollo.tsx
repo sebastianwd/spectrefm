@@ -1,8 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import { useMemo } from 'react'
-import { ApolloClient } from 'apollo-client'
-import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory'
-import { HttpLink } from 'apollo-link-http'
+import {
+  ApolloClient,
+  InMemoryCache,
+  NormalizedCacheObject,
+  HttpLink,
+} from '@apollo/client'
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined
 

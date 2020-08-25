@@ -1,67 +1,41 @@
-import React from 'react'
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-  Typography,
-  Grid,
-} from '@material-ui/core'
-import styled from 'styled-components'
-import { PlayArrow } from '@material-ui/icons'
+import React, { useCallback, useEffect } from 'react'
+import { useTrackYoutubeIdsLazyQuery } from '@generated/graphql'
+import { useStoreActions } from '@hooks'
+import Track from './track'
 
 interface Props {
   title: string
   playcount?: string | null
+  number?: number
+  artistName: string
 }
 
-const Track: React.FC<Props> = (props) => {
-  const { title, playcount } = props
+const TrackImpl: React.FC<Props> = (props) => {
+  const { title, playcount, number, artistName } = props
+
+  const [trackYoutubeIds, { loading, data }] = useTrackYoutubeIdsLazyQuery()
+
+  const playTrack = useStoreActions((actions) => actions.player.playTrack)
+
+  const onClick = useCallback(() => {
+    trackYoutubeIds({ variables: { artistName, trackTitle: title, limit: 2 } })
+  }, [artistName, title, trackYoutubeIds])
+
+  useEffect(() => {
+    if (data?.trackYoutubeIds) {
+      playTrack({ videoId: data?.trackYoutubeIds[0] })
+    }
+  }, [data?.trackYoutubeIds, playTrack])
 
   return (
-    <Container button>
-      <ListItemIcon>
-        <IconButton edge="start" aria-label="play">
-          <PlayArrow />
-        </IconButton>
-      </ListItemIcon>
-      <ListItemText disableTypography>
-        <Grid container spacing={1}>
-          <Grid item xs={6} zeroMinWidth>
-            <Typography
-              variant="subtitle2"
-              color="textPrimary"
-              noWrap
-              style={{ fontWeight: 400 }}
-            >
-              {title}
-            </Typography>
-          </Grid>
-          <Grid item xs={2} md={1} zeroMinWidth>
-            {playcount && (
-              <Typography
-                variant="body2"
-                noWrap
-                color="textSecondary"
-                style={{ fontSize: 14 }}
-              >
-                {playcount}
-              </Typography>
-            )}
-          </Grid>
-        </Grid>
-      </ListItemText>
-    </Container>
+    <Track
+      title={title}
+      playcount={playcount}
+      number={number}
+      loading={loading}
+      onClick={onClick}
+    />
   )
 }
 
-const Container = styled(ListItem)`
-  height: ${(props) => props.theme.spacing(6)}px;
-  border-radius: ${(props) => props.theme.spacing(3)}px;
-
-  .MuiListItemText-root {
-    user-select: text;
-  }
-`
-
-export default Track
+export default TrackImpl

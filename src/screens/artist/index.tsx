@@ -4,8 +4,9 @@ import { TabPanel, TabContext } from '@material-ui/lab'
 import { Artist } from '@generated/graphql'
 import styled, { css } from 'styled-components'
 import ReactPlayer from 'react-player/youtube'
-import { Typography, Paper, Tabs, Tab, Box, Grid } from '@material-ui/core'
+import { Typography, Tabs, Tab, Grid } from '@material-ui/core'
 import { placeholders } from '@constants'
+import { useStoreState } from '@hooks'
 import { Tracks, SimlarArtists } from './components'
 
 interface Props {
@@ -19,6 +20,8 @@ const ArtistScreen: React.FC<Props> = (props) => {
 
   const [value, setValue] = React.useState('1')
 
+  const playerState = useStoreState((state) => state.player)
+
   const handleChange = (_: any, newValue: string) => setValue(newValue)
 
   return (
@@ -30,7 +33,7 @@ const ArtistScreen: React.FC<Props> = (props) => {
               <Img
                 src={artist.image || placeholders.ARTIST_IMAGE}
                 placeholder={placeholders.ARTIST_IMAGE}
-                alt="artist profile image"
+                alt="artist profile"
               />
               <TextContainer>
                 <Typography
@@ -49,10 +52,10 @@ const ArtistScreen: React.FC<Props> = (props) => {
         </Grid>
         <Grid item xs={12} md={4}>
           <ReactPlayer
-            url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
+            url={playerState.url}
             height={256}
             width="auto"
-            playing={false}
+            playing={playerState.playing}
             config={{ onUnstarted: () => {} } as any}
           />
         </Grid>
@@ -154,10 +157,15 @@ const Header = styled.header<{ backgroundImage?: string | null }>`
     position: absolute;
     content: '';
     background: linear-gradient(
-      to bottom,
-      transparent -80%,
-      ${(props) => props.theme.palette.background.default} 100%
-    );
+        to bottom,
+        transparent -80%,
+        ${(props) => props.theme.palette.background.default} 100%
+      ),
+      linear-gradient(
+        to left,
+        transparent 99%,
+        ${(props) => props.theme.palette.background.default} 100%
+      );
     width: 100%;
     height: 100%;
     top: 0;

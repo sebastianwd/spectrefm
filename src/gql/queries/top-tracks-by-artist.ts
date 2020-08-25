@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 const topTracksByArtistQuery = gql`
   query topTracksByArtist($artistName: String!, $limit: Int, $page: Int) {

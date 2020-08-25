@@ -5,3 +5,7 @@ export const cookieNames = {
 export const placeholders = {
   ARTIST_IMAGE: '/artist_placeholder.png',
 }
+
+export const urls = {
+  youtube: (videoId: string) => `https://www.youtube.com/watch?v=${videoId}`,
+}

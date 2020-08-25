@@ -46,7 +46,7 @@ ArtistPage.getInitialProps = async (context) => {
   )
 
   return {
-    artist: response.data.artist as Artist,
+    artist: response.data?.artist as Artist,
   }
 }
 

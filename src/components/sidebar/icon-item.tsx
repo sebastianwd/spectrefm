@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Typography } from '@material-ui/core'
 import { css } from 'styled-components'
+import { lighten } from 'polished'
 
 interface Props {
   icon?: JSX.Element
@@ -16,7 +17,7 @@ const containerStyle = (isActive: boolean) => css`
   color: ${(props) =>
     props.theme.palette.text[isActive ? 'primary' : 'secondary']};
   background-color: ${(props) =>
-    isActive ? props.theme.palette.secondary.light : 'unset'};
+    isActive ? lighten(0.02, props.theme.palette.background.paper) : 'unset'};
   cursor: pointer;
   flex-direction: column;
   align-items: center;

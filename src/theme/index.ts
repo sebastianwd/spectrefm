@@ -29,9 +29,8 @@ const theme = createMuiTheme({
       main: 'rgb(0, 90, 194)',
     },
     secondary: {
-      main: '#121212',
-      dark: '#0C0C0C',
-      light: '#171717',
+      main: '#0F0F0F',
+      dark: '#0A0A0A',
     },
     error: {
       main: colors.red.A400,
@@ -41,7 +40,7 @@ const theme = createMuiTheme({
     },
     background: {
       paper: '#121212',
-      default: '#0E0E0E',
+      default: '#0C0C0C',
     },
     text: {
       primary: '#DBDBDB',
@@ -71,6 +70,11 @@ theme.typography.h2 = {
   [theme.breakpoints.down('sm')]: {
     fontSize: '2rem',
   },
+}
+
+theme.typography.caption = {
+  ...theme.typography.body2,
+  fontSize: '0.75rem',
 }
 
 export default theme

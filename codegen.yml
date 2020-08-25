@@ -6,6 +6,7 @@ generates:
     plugins:
       - 'typescript'
       - 'typescript-operations'
+      - 'typescript-react-apollo'
     config:
       avoidOptionals: true
       maybeValue: 'T extends PromiseLike<infer U> ? Promise<U | null> : T | null'

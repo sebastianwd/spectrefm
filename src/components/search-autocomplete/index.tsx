@@ -8,14 +8,12 @@ import {
   InputAdornment,
   CircularProgress,
 } from '@material-ui/core'
-import { useRouter } from 'next/router'
 import { Search as SearchIcon } from '@material-ui/icons'
-import { useApolloClient } from '@apollo/react-hooks'
+import { useApolloClient } from '@apollo/client'
 import { searchArtistsQuery, artistQuery } from '@gql/queries'
 import { SearchArtistsQuery, ArtistQuery } from '@generated/graphql'
 import { debounce } from 'lodash'
-import { cookies } from '@utils'
-import { cookieNames } from '@constants'
+import { redirect } from '@utils'
 
 interface Props
   extends Omit<
@@ -36,8 +34,6 @@ const SearchAutocomplete: React.FC<Props> = (props) => {
     defaultValues: { query: '' },
   })
 
-  const router = useRouter()
-
   const client = useApolloClient()
 
   const query = watch('query')
@@ -46,18 +42,23 @@ const SearchAutocomplete: React.FC<Props> = (props) => {
 
   const [options, setOptions] = useState<string[]>([])
 
-  const onSubmit = async (data: Inputs) => {
+  const onSubmit = async (values: Inputs) => {
     setLoading(true)
-    const reponse = await client.query<ArtistQuery>({
+
+    const { data } = await client.query<ArtistQuery>({
       query: artistQuery,
-      variables: { artistName: data.query },
+      variables: { artistName: values.query },
     })
 
-    cookies().set(cookieNames.ARTIST_SEARCH, reponse.data.artist)
+    const artist = data?.artist
 
-    router.push('/artist/[name]', `/artist/${reponse.data?.artist?.name}`)
+    if (!artist) {
+      setLoading(false)
 
-    setLoading(false)
+      return
+    }
+
+    redirect.toArtist(artist)
   }
 
   const onSearch = async (value: string) => {
@@ -74,7 +75,7 @@ const SearchAutocomplete: React.FC<Props> = (props) => {
         variables: { artistName: value },
       })
 
-      setOptions(data.searchArtists)
+      setOptions(data!.searchArtists)
     } catch (e) {
       console.log('object', e)
     } finally {
@@ -82,23 +83,25 @@ const SearchAutocomplete: React.FC<Props> = (props) => {
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const delayedSearch = useCallback(debounce(onSearch, 400), [])
 
   useEffect(() => {
     register('query', { required: true })
-  }, [])
+  }, [register])
 
   useEffect(() => {
     delayedSearch(query)
 
     return delayedSearch.cancel
-  }, [query])
+  }, [query, delayedSearch])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Autocomplete
         freeSolo
         options={options}
+        filterOptions={(x) => x}
         onChange={(_, selectedValue) => {
           setValue('query', selectedValue)
 
