@@ -8,7 +8,7 @@ import NextDocument, {
 } from 'next/document'
 import { ServerStyleSheet as StyledComponentSheets } from 'styled-components'
 import { ServerStyleSheets as MaterialUiServerStyleSheets } from '@material-ui/core/styles'
-import theme from '@theme'
+import theme from '~/theme'
 
 class Document extends NextDocument {
   static async getInitialProps(ctx: DocumentContext) {

@@ -1,7 +1,6 @@
 const withPlugins = require('next-compose-plugins')
-const optimizedImages = require('next-optimized-images')
 
-module.exports = withPlugins([[optimizedImages, {}]], {
+module.exports = withPlugins([], {
   env: {
     API_URL: 'my-value',
   },
@@ -11,5 +10,8 @@ module.exports = withPlugins([[optimizedImages, {}]], {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
+  },
+  images: {
+    domains: ['www.theaudiodb.com', 'lastfm.freetls.fastly.net'],
   },
 })

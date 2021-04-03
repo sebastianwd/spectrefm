@@ -1,7 +1,7 @@
 import React from 'react'
 import { map } from 'lodash'
-import { useTopTracksByArtistQuery } from '@generated/graphql'
-import { Track } from '@components'
+import { useTopTracksByArtistQuery } from '~/generated/graphql'
+import { Track } from '~/components'
 
 interface Props {
   artistName: string

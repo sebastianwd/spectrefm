@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect } from 'react'
-import { useTrackYoutubeIdsLazyQuery } from '@generated/graphql'
-import { useStoreActions } from '@hooks'
+import React, { useCallback, useState } from 'react'
+import { useApolloClient } from '@apollo/client'
+import { useStoreActions } from '~/hooks'
+import { trackYoutubeIdsQuery } from '~/gql/queries'
 import Track from './track'
 
 interface Props {
@@ -13,19 +14,30 @@ interface Props {
 const TrackImpl: React.FC<Props> = (props) => {
   const { title, playcount, number, artistName } = props
 
-  const [trackYoutubeIds, { loading, data }] = useTrackYoutubeIdsLazyQuery()
+  const client = useApolloClient()
+
+  const [loading, setLoading] = useState(false)
 
   const playTrack = useStoreActions((actions) => actions.player.playTrack)
 
-  const onClick = useCallback(() => {
-    trackYoutubeIds({ variables: { artistName, trackTitle: title, limit: 2 } })
-  }, [artistName, title, trackYoutubeIds])
+  const onClick = useCallback(async () => {
+    setLoading(true)
 
-  useEffect(() => {
+    const { data } = await client.query({
+      query: trackYoutubeIdsQuery,
+      variables: {
+        artistName,
+        trackTitle: title,
+        limit: 2,
+      },
+    })
+
     if (data?.trackYoutubeIds) {
       playTrack({ videoId: data?.trackYoutubeIds[0] })
     }
-  }, [data?.trackYoutubeIds, playTrack])
+
+    setLoading(false)
+  }, [artistName, title])
 
   return (
     <Track

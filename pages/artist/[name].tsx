@@ -1,11 +1,11 @@
 import React from 'react'
 import { NextPage } from 'next'
-import { cookies } from '@utils'
-import { cookieNames } from '@constants'
-import { initializeApollo } from '@gql/apollo'
-import { artistQuery } from '@gql/queries'
-import { ArtistQuery, ArtistQueryVariables, Artist } from '@generated/graphql'
-import { ArtistScreen } from '@screens'
+import { cookieNames } from '~/constants'
+import { initializeApollo } from '~/gql/apollo'
+import { artistQuery } from '~/gql/queries'
+import { ArtistQuery, ArtistQueryVariables, Artist } from '~/generated/graphql'
+import { cookies } from '~/utils'
+import { ArtistScreen } from '~/screens'
 
 interface Props {
   artist: Artist

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// eslint-disable-next-line no-var
-var path = require('path')
+const path = require('path')
 
 module.exports = {
   parser: '@typescript-eslint/parser',
@@ -28,6 +27,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:import/typescript',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
@@ -44,12 +44,13 @@ module.exports = {
   ],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/exhaustive-deps': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'react/prop-types': 0,
     'react/jsx-one-expression-per-line': 0,
+    'react/require-default-props': 0,
     'import/no-unresolved': 0,
     'import/extensions': 0,
     'import/prefer-default-export': 0,
@@ -59,6 +60,7 @@ module.exports = {
     '@typescript-eslint/lines-between-class-members': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'jsx-a11y/anchor-is-valid': 0,
+    'import/namespace': ['error', { allowComputed: true }],
     '@typescript-eslint/no-non-null-assertion': 0,
     'graphql/template-strings': [
       'error',
@@ -71,7 +73,7 @@ module.exports = {
     'react/jsx-filename-extension': [
       'warn',
       {
-        extensions: ['.jsx', '.tsx'],
+        extensions: ['.jsx', '.tsx', '.ts', '.d.ts'],
       },
     ],
   },

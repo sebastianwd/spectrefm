@@ -20,18 +20,8 @@
     "baseUrl": ".",
     "rootDir": "src",
     "paths": {
-      "@components": ["src/components"],
-      "@gql": ["src/gql"],
-      "@gql/*": ["src/gql/*"],
-      "@providers": ["src/providers"],
-      "@generated/*": ["src/__generated__/*"],
-      "@theme": ["src/theme"],
-      "@screens": ["src/screens"],
-      "@utils": ["src/utils"],
-      "@constants": ["src/constants.ts"],
-      "@state": ["src/state"],
-      "@state/*": ["src/state/*"],
-      "@hooks": ["src/hooks"]
+      "~/*": ["./src/*"],
+      "~/generated/*": ["./src/__generated__/*"]
     }
   },
   "exclude": ["node_modules", ".next"],

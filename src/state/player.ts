@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Action, action } from 'easy-peasy'
-import { urls } from '@constants'
+import { urls } from '~/constants'
 
 export interface PlayerModel {
   url?: string

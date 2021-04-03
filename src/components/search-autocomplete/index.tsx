@@ -8,12 +8,12 @@ import {
   InputAdornment,
   CircularProgress,
 } from '@material-ui/core'
+import { debounce } from 'lodash'
 import { Search as SearchIcon } from '@material-ui/icons'
 import { useApolloClient } from '@apollo/client'
-import { searchArtistsQuery, artistQuery } from '@gql/queries'
-import { SearchArtistsQuery, ArtistQuery } from '@generated/graphql'
-import { debounce } from 'lodash'
-import { redirect } from '@utils'
+import { searchArtistsQuery, artistQuery } from '~/gql/queries'
+import { SearchArtistsQuery, ArtistQuery } from '~/generated/graphql'
+import { redirect } from '~/utils'
 
 interface Props
   extends Omit<
@@ -77,7 +77,7 @@ const SearchAutocomplete: React.FC<Props> = (props) => {
 
       setOptions(data!.searchArtists)
     } catch (e) {
-      console.log('object', e)
+      console.error(e)
     } finally {
       setLoading(false)
     }

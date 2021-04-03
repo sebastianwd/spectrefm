@@ -1,15 +1,16 @@
 import React from 'react'
 import { map } from 'lodash'
-import {
-  SimilarArtistsQuery,
-  SimilarArtistsQueryVariables,
-} from '@generated/graphql'
+
 import styled from 'styled-components'
 import { useQuery } from '@apollo/client'
 import SimpleBar from 'simplebar-react'
 import { Typography } from '@material-ui/core'
-import { SimilarArtistCard } from '@components'
-import { similarArtistsQuery } from '@gql/queries'
+import {
+  SimilarArtistsQuery,
+  SimilarArtistsQueryVariables,
+} from '~/generated/graphql'
+import { SimilarArtistCard } from '~/components'
+import { similarArtistsQuery } from '~/gql/queries'
 
 interface Props {
   artistName: string
@@ -34,7 +35,7 @@ const SimlarArtists: React.FC<Props> = (props) => {
 
   return (
     <Container>
-      <Header variant="subtitle1">Similar artists</Header>
+      <Header variant="h5">similar artists</Header>
       <ScrollBar>
         <Content>
           {map(data?.similarArtists, (artist) => (
@@ -51,9 +52,8 @@ const SimlarArtists: React.FC<Props> = (props) => {
 }
 
 const Header = styled(Typography)`
-  text-transform: uppercase;
-  letter-spacing: 1px;
   padding: ${(props) => props.theme.spacing(2)}px 0;
+  font-weight: 500;
 `
 
 const Container = styled.div`

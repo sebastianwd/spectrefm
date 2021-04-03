@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from '@material-ui/core'
 import styled from 'styled-components'
-import { SearchAutocomplete } from '@components'
+import { SearchAutocomplete } from '~/components'
 
 const Home: React.FC = () => {
   return (

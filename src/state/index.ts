@@ -1,5 +1,5 @@
 import { createStore } from 'easy-peasy'
-import { User } from '@generated/graphql'
+import { User } from '~/generated/graphql'
 import { PlayerModel, playerModel } from './player'
 import { layoutModel, LayoutModel } from './layout'
 

@@ -1,12 +1,11 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 const loginMutation = gql`
   mutation login {
     login(input: { email: "bob@bob.com", password: "123" }) {
       id
-      firstName
       email
-      fullName
+      username
     }
   }
 `

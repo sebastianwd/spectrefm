@@ -1,6 +1,6 @@
 import Router from 'next/router'
-import { Artist } from '@generated/graphql'
-import { cookieNames } from '@constants'
+import { Artist } from '~/generated/graphql'
+import { cookieNames } from '~/constants'
 import cookies from './cookies'
 
 const redirect = {

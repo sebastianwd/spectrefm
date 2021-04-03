@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, AppBar, Toolbar, Typography } from '@material-ui/core'
 import styled from 'styled-components'
-import { Sidebar } from '@components'
-import { useStoreState } from '@hooks'
+import { Sidebar } from '~/components'
+import { useStoreState } from '~/hooks'
 
 const MainLayout: React.FC = ({ children }) => {
   const leftDrawerWidth = useStoreState((state) => state.layout.leftDrawerWidth)
@@ -36,7 +36,8 @@ const StyledAppBar = styled(AppBar)`
 
 const Main = styled.main<{ leftDrawerWidth: number }>`
   flex-grow: 1;
-  max-width: calc(100vw - ${(props) => props.leftDrawerWidth}px);
+  margin: 0 auto;
+  max-width: calc(1920px - ${(props) => props.leftDrawerWidth}px);
 `
 
 export default MainLayout

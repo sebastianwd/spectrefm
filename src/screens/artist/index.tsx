@@ -1,13 +1,13 @@
 import React from 'react'
 import Img from 'react-cool-img'
 import { TabPanel, TabContext } from '@material-ui/lab'
-import { Artist } from '@generated/graphql'
 import styled, { css } from 'styled-components'
 import ReactPlayer from 'react-player/youtube'
 import { Typography, Tabs, Tab, Grid } from '@material-ui/core'
-import { placeholders } from '@constants'
-import { useStoreState } from '@hooks'
-import { Tracks, SimlarArtists } from './components'
+import { Artist } from '~/generated/graphql'
+import { placeholders } from '~/constants'
+import { useStoreState } from '~/hooks'
+import { Tracks, SimlarArtists, Albums } from './components'
 
 interface Props {
   artist: Artist
@@ -56,6 +56,7 @@ const ArtistScreen: React.FC<Props> = (props) => {
             height={256}
             width="auto"
             playing={playerState.playing}
+            controls
             config={{ onUnstarted: () => {} } as any}
           />
         </Grid>
@@ -66,17 +67,20 @@ const ArtistScreen: React.FC<Props> = (props) => {
             <TabsContainer>
               <Tabs
                 value={value}
-                indicatorColor="primary"
+                indicatorColor="secondary"
                 textColor="inherit"
                 onChange={handleChange}
                 aria-label="tabs"
               >
-                <Tab label="TOP TRACKS" value="1" />
-                <Tab label="ALBUMS" value="2" />
+                <Tab label="top tracks" value="1" />
+                <Tab label="albums" value="2" />
               </Tabs>
             </TabsContainer>
             <TabPanel value="1">
               <Tracks artistName={artist.name} />
+            </TabPanel>
+            <TabPanel value="2">
+              <Albums artistName={artist.name} />
             </TabPanel>
           </TabContext>
         </Content>
@@ -92,15 +96,20 @@ const TabsContainer = styled.div`
   justify-content: left;
   display: flex;
 
+  button {
+    transition: all 0.2s;
+  }
+
   .MuiTab-wrapper {
-    letter-spacing: 2px;
+    ${(props): any => ({ ...props.theme.typography.h5 })};
+    font-weight: 500;
   }
 `
 
 const Content = styled(Grid)`
   padding: ${(props) => props.theme.spacing(2)}px;
   padding-top: 0;
-  transform: translateY(-${(props) => props.theme.spacing(3)}px);
+  transform: translateY(-${(props) => props.theme.spacing(2)}px);
 
   .MuiTabPanel-root {
     padding: 0;

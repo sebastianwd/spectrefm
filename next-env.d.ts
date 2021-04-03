@@ -4,16 +4,7 @@
 /// <reference types='@material-ui/lab/themeAugmentation' />
 
 import { Theme } from '@material-ui/core'
-import { CSSProp, DefaultTheme } from 'styled-components'
-
-declare module '*.svg' {
-  const value: any
-  export default value
-}
-declare module '*.png' {
-  const value: any
-  export default value
-}
+import { CSSProp, DefaultTheme as SCTheme } from 'styled-components'
 
 declare module 'styled-components' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -21,7 +12,7 @@ declare module 'styled-components' {
 }
 
 declare module 'react' {
-  interface DOMAttributes<T> {
-    css?: CSSProp<DefaultTheme>
+  interface DOMAttributes {
+    css?: CSSProp<SCTheme>
   }
 }

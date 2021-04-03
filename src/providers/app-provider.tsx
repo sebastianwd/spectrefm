@@ -7,9 +7,9 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from '@material-ui/core'
 import { ThemeProvider } from 'styled-components'
-import { useApollo } from '@gql/apollo'
-import theme from '@theme'
-import store from '@state'
+import { useApollo } from '~/gql/apollo'
+import theme from '~/theme'
+import store from '~/state'
 
 const AppProvider: React.FC<AppProps> = (props) => {
   const { pageProps, children } = props

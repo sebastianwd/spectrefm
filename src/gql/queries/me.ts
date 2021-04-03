@@ -5,9 +5,7 @@ const meQuery = gql`
     me {
       id
       email
-      firstName
-      fullName
-      lastName
+      username
     }
   }
 `

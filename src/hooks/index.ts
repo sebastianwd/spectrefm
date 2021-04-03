@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { createTypedHooks } from 'easy-peasy'
-import { StoreModel } from '@state'
+import { StoreModel } from '~/state'
 
 const typedHooks = createTypedHooks<StoreModel>()
 

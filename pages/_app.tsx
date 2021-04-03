@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import 'simplebar/dist/simplebar.min.css'
 import { AppProps } from 'next/app'
 import { CssBaseline } from '@material-ui/core'
-import { AppProvider } from '@providers'
-import { MainLayout } from 'src/layouts'
+import { AppProvider } from '~/providers'
+import { MainLayout } from '~/layouts'
 
 const App: React.FC<AppProps> = (props) => {
   const { Component, pageProps } = props
