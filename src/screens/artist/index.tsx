@@ -8,6 +8,7 @@ import { Artist } from '~/generated/graphql'
 import { placeholders } from '~/constants'
 import { useStoreState } from '~/hooks'
 import { Tracks, SimlarArtists, Albums } from './components'
+import useMusicPlayer from '~/hooks/use-music-player'
 
 interface Props {
   artist: Artist
@@ -23,6 +24,8 @@ const ArtistScreen: React.FC<Props> = (props) => {
   const playerState = useStoreState((state) => state.player)
 
   const handleChange = (_: any, newValue: string) => setValue(newValue)
+
+  const { onPlay, onPause, onProgress, onDuration, onEnded } = useMusicPlayer()
 
   return (
     <>
@@ -55,8 +58,16 @@ const ArtistScreen: React.FC<Props> = (props) => {
             url={playerState.url}
             height={256}
             width="auto"
+            volume={playerState.volume}
             playing={playerState.playing}
+            muted={playerState.muted}
+            pip={playerState.pip}
             controls
+            onPlay={onPlay}
+            onPause={onPause}
+            onProgress={onProgress}
+            onDuration={onDuration}
+            onEnded={onEnded}
             config={{ onUnstarted: () => {} } as any}
           />
         </Grid>

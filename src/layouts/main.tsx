@@ -3,6 +3,7 @@ import { Box, AppBar, Toolbar, Typography } from '@material-ui/core'
 import styled from 'styled-components'
 import { Sidebar } from '~/components'
 import { useStoreState } from '~/hooks'
+import Player from '~/components/player'
 
 const MainLayout: React.FC = ({ children }) => {
   const leftDrawerWidth = useStoreState((state) => state.layout.leftDrawerWidth)
@@ -24,10 +25,22 @@ const MainLayout: React.FC = ({ children }) => {
       <Main leftDrawerWidth={leftDrawerWidth}>
         <Toolbar />
         {children}
+        <PlayerSpacing />
       </Main>
+      <StyledPlayer />
     </Box>
   )
 }
+
+const PlayerSpacing = styled.div`
+  height: ${(props) => props.theme.spacing(12)}px;
+`
+
+const StyledPlayer = styled(Player)`
+  position: fixed;
+  bottom: 0;
+  z-index: ${(props) => props.theme.zIndex.drawer + 1};
+`
 
 const StyledAppBar = styled(AppBar)`
   z-index: ${(props) => props.theme.zIndex.drawer + 1};

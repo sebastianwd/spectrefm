@@ -13,7 +13,7 @@ import { Search as SearchIcon } from '@material-ui/icons'
 import { useApolloClient } from '@apollo/client'
 import { searchArtistsQuery, artistQuery } from '~/gql/queries'
 import { SearchArtistsQuery, ArtistQuery } from '~/generated/graphql'
-import { redirect } from '~/utils'
+import { logger, redirect } from '~/utils'
 
 interface Props
   extends Omit<
@@ -77,7 +77,7 @@ const SearchAutocomplete: React.FC<Props> = (props) => {
 
       setOptions(data!.searchArtists)
     } catch (e) {
-      console.error(e)
+      logger(e)
     } finally {
       setLoading(false)
     }

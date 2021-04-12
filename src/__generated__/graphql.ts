@@ -225,6 +225,20 @@ export type LoginMutation = (
   )> }
 );
 
+export type AlbumByTrackQueryVariables = Exact<{
+  artistName: Scalars['String'];
+  trackTitle: Scalars['String'];
+}>;
+
+
+export type AlbumByTrackQuery = (
+  { __typename?: 'Query' }
+  & { albumByTrack: Maybe<(
+    { __typename?: 'Album' }
+    & Pick<Album, 'id' | 'title' | 'coverImage' | 'artistName'>
+  )> }
+);
+
 export type AlbumsByArtistQueryVariables = Exact<{
   artistName: Scalars['String'];
   limit: Maybe<Scalars['Int']>;
@@ -369,6 +383,45 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const AlbumByTrackDocument = gql`
+    query albumByTrack($artistName: String!, $trackTitle: String!) {
+  albumByTrack(artistName: $artistName, trackTitle: $trackTitle) {
+    id
+    title
+    coverImage
+    artistName
+  }
+}
+    `;
+
+/**
+ * __useAlbumByTrackQuery__
+ *
+ * To run a query within a React component, call `useAlbumByTrackQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAlbumByTrackQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAlbumByTrackQuery({
+ *   variables: {
+ *      artistName: // value for 'artistName'
+ *      trackTitle: // value for 'trackTitle'
+ *   },
+ * });
+ */
+export function useAlbumByTrackQuery(baseOptions: Apollo.QueryHookOptions<AlbumByTrackQuery, AlbumByTrackQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AlbumByTrackQuery, AlbumByTrackQueryVariables>(AlbumByTrackDocument, options);
+      }
+export function useAlbumByTrackLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AlbumByTrackQuery, AlbumByTrackQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AlbumByTrackQuery, AlbumByTrackQueryVariables>(AlbumByTrackDocument, options);
+        }
+export type AlbumByTrackQueryHookResult = ReturnType<typeof useAlbumByTrackQuery>;
+export type AlbumByTrackLazyQueryHookResult = ReturnType<typeof useAlbumByTrackLazyQuery>;
+export type AlbumByTrackQueryResult = Apollo.QueryResult<AlbumByTrackQuery, AlbumByTrackQueryVariables>;
 export const AlbumsByArtistDocument = gql`
     query albumsByArtist($artistName: String!, $limit: Int) {
   albumsByArtist(artistName: $artistName, limit: $limit) {

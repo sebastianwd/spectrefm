@@ -1,7 +1,6 @@
 import React from 'react'
-import { map } from 'lodash'
 import { useTopTracksByArtistQuery } from '~/generated/graphql'
-import { Track } from '~/components'
+import Playlist from '~/components/playlist'
 
 interface Props {
   artistName: string
@@ -22,19 +21,11 @@ const Tracks: React.FC<Props> = (props) => {
     return null
   }
 
-  return (
-    <>
-      {map(data?.topTracksByArtist, (track, index) => (
-        <Track
-          key={track.id}
-          number={index + 1}
-          title={track.title}
-          playcount={track.playcount}
-          artistName={artistName}
-        />
-      ))}
-    </>
-  )
+  if (!data?.topTracksByArtist) {
+    return null
+  }
+
+  return <Playlist tracks={data.topTracksByArtist} />
 }
 
 export default Tracks
