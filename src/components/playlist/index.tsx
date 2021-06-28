@@ -1,20 +1,17 @@
 import { map } from 'lodash'
 import { useCallback, useMemo } from 'react'
 import { useApolloClient } from '@apollo/client'
-import { albumByTrackQuery, trackYoutubeIdsQuery } from '~/gql/queries'
-import {
-  Track,
-  AlbumByTrackQuery,
-  TrackYoutubeIdsQuery,
-} from '~/__generated__/graphql'
+import { trackYoutubeIdsQuery } from '~/gql/queries'
+import { Track, TrackYoutubeIdsQuery } from '~/__generated__/graphql'
 import TrackComponent from '../track'
 import useMusicPlayer from '~/hooks/use-music-player'
+import usePlaylist from '~/hooks/use-playlist'
 
 interface Props {
   tracks: Track[]
 }
 
-function formatTrack(tracks: Track[]) {
+function formatTracks(tracks: Track[]) {
   return map(tracks, (track) => {
     return {
       track: track.title,
@@ -26,16 +23,13 @@ function formatTrack(tracks: Track[]) {
 const Playlist = (props: Props) => {
   const { tracks } = props
 
-  const {
-    setCurrentTrackByIndex,
-    setQueue,
-    updateCurrentTrack,
-    playTrack,
-  } = useMusicPlayer()
+  const { setCurrentTrackByIndex, setQueue, searchAndPlay } = useMusicPlayer()
+
+  const { currentTrack } = usePlaylist()
 
   const client = useApolloClient()
 
-  const queueFormattedTracks = useMemo(() => formatTrack(tracks), [tracks])
+  const queueFormattedTracks = useMemo(() => formatTracks(tracks), [tracks])
 
   const onPlayClick = useCallback(
     async (track: Track, index: number) => {
@@ -53,25 +47,13 @@ const Playlist = (props: Props) => {
       if (videoData.trackYoutubeIds) {
         setCurrentTrackByIndex({ index })
 
-        playTrack({
-          videoId: videoData.trackYoutubeIds[0],
-        })
-
-        const { data: albumData } = await client.query<AlbumByTrackQuery>({
-          query: albumByTrackQuery,
-          variables: {
-            artistName: track.artistName,
-            trackTitle: track.title,
-          },
-        })
-
-        updateCurrentTrack({
-          album: albumData.albumByTrack?.title,
-          albumImageUrl: albumData.albumByTrack?.coverImage,
+        searchAndPlay({
+          artist: track.artistName,
+          track: track.title,
         })
       }
     },
-    [tracks]
+    [queueFormattedTracks]
   )
 
   return (
@@ -83,6 +65,7 @@ const Playlist = (props: Props) => {
           title={track.title}
           playcount={track.playcount}
           onPlayClick={() => onPlayClick(track, index)}
+          isPlaying={currentTrack?.track === track.title}
         />
       ))}
     </>

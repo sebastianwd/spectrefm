@@ -1,14 +1,22 @@
 /* eslint-disable no-param-reassign */
-import { Action, action } from 'easy-peasy'
+import { Action, action, Thunk, thunk } from 'easy-peasy'
 import { isUndefined } from 'lodash'
 import { urls } from '~/constants'
+import { initializeApollo } from '~/gql/apollo'
+import { albumByTrackQuery, trackYoutubeIdsQuery } from '~/gql/queries'
 import { logger } from '~/utils'
+import {
+  AlbumByTrackQuery,
+  TrackYoutubeIdsQuery,
+} from '~/__generated__/graphql'
+import { StoreModel } from '~/state'
 
 export type QueueTrack = {
   albumImageUrl?: string | null
   track?: string
   artist?: string
   album?: string
+  videoIds?: string[]
 }
 
 export interface PlaylistModel {
@@ -35,6 +43,7 @@ export interface PlayerModel {
   duration: number
   playbackRate: number
   loop: boolean
+  searchAndPlay: Thunk<PlayerModel, QueueTrack, any, StoreModel, Promise<void>>
   playTrack: Action<PlayerModel, { videoId: string }>
   onProgress: Action<
     PlayerModel,
@@ -85,6 +94,41 @@ export const playerModel: PlayerModel = {
   duration: 0,
   playbackRate: 1.0,
   loop: false,
+  searchAndPlay: thunk(async (actions, payload, { getStoreActions }) => {
+    const apolloClient = initializeApollo()
+
+    const { data: videoData } = await apolloClient.query<TrackYoutubeIdsQuery>({
+      query: trackYoutubeIdsQuery,
+      variables: {
+        artistName: payload.artist,
+        trackTitle: payload.track,
+        limit: 4,
+      },
+    })
+
+    if (!videoData.trackYoutubeIds) {
+      return
+    }
+
+    getStoreActions().playlist.updateCurrentTrack({
+      videoIds: videoData.trackYoutubeIds,
+    })
+
+    actions.playTrack({ videoId: videoData.trackYoutubeIds[0] })
+
+    const { data: albumData } = await apolloClient.query<AlbumByTrackQuery>({
+      query: albumByTrackQuery,
+      variables: {
+        artistName: payload.artist,
+        trackTitle: payload.track,
+      },
+    })
+
+    getStoreActions().playlist.updateCurrentTrack({
+      album: albumData.albumByTrack?.title,
+      albumImageUrl: albumData.albumByTrack?.coverImage,
+    })
+  }),
   playTrack: action((state, payload) => {
     state.played = 0
     state.url = urls.youtube(payload.videoId)

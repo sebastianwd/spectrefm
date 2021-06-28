@@ -26,21 +26,21 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      main: 'rgb(0, 90, 194)',
+      main: '#3D51FA',
     },
     secondary: {
       main: '#0F0F0F',
-      dark: '#0A0A0A',
+      dark: '#0F0F10',
     },
     error: {
       main: colors.red.A400,
     },
     info: {
-      main: 'rgb(0, 90, 194)',
+      main: '#2D32BC',
     },
     background: {
       paper: '#121212',
-      default: '#0C0C0C',
+      default: '#1B1C22',
     },
     text: {
       primary: '#DBDBDB',

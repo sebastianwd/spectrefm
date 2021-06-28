@@ -3,6 +3,10 @@ import { useStoreActions } from '.'
 const useMusicPlayer = () => {
   const playTrack = useStoreActions((actions) => actions.player.playTrack)
 
+  const searchAndPlay = useStoreActions(
+    (actions) => actions.player.searchAndPlay
+  )
+
   const onProgress = useStoreActions((actions) => actions.player.onProgress)
 
   const onDuration = useStoreActions((actions) => actions.player.onDuration)
@@ -35,6 +39,7 @@ const useMusicPlayer = () => {
 
   return {
     playTrack,
+    searchAndPlay,
     onProgress,
     onDuration,
     onSeekMouseUp,

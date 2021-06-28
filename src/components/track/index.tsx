@@ -5,7 +5,7 @@ import {
   Typography,
   CircularProgress,
 } from '@material-ui/core'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { FavoriteBorder, PlayArrow } from '@material-ui/icons'
 import { lighten } from 'polished'
 
@@ -13,11 +13,12 @@ interface Props {
   title: string
   playcount?: string | null
   number?: number
+  isPlaying?: boolean
   onPlayClick?: () => Promise<void>
 }
 
 const Track = (props: Props) => {
-  const { title, playcount, number, onPlayClick } = props
+  const { title, playcount, number, onPlayClick, isPlaying } = props
 
   const [loading, setLoading] = useState(false)
 
@@ -32,7 +33,7 @@ const Track = (props: Props) => {
   }
 
   return (
-    <Container button onClick={onClick}>
+    <Container button onClick={onClick} isPlaying={isPlaying}>
       <NumberLabel variant="caption" color="textPrimary" noWrap>
         {number}
       </NumberLabel>
@@ -47,7 +48,7 @@ const Track = (props: Props) => {
         )}
         <Typography
           variant="body2"
-          color="textPrimary"
+          color={isPlaying ? 'primary' : 'textPrimary'}
           data-title
           noWrap
           component="p"
@@ -64,7 +65,21 @@ const Track = (props: Props) => {
   )
 }
 
-const Container = styled(ListItem)`
+const activeStyle = css`
+  background-color: ${(props) =>
+    lighten(0.025, props.theme.palette.background.default)};
+
+  [data-play='true'] {
+    transform: scale(1);
+    width: ${(props) => props.theme.spacing(2.5)}px;
+  }
+
+  [data-title='true'] {
+    transform: translateX(${(props) => props.theme.spacing(1)}px);
+  }
+`
+
+const Container = styled(ListItem)<{ isPlaying: boolean | undefined }>`
   display: flex;
   flex-direction: center;
   height: ${(props) => props.theme.spacing(6)}px;
@@ -86,18 +101,10 @@ const Container = styled(ListItem)`
   }
 
   &:hover {
-    background-color: ${(props) =>
-      lighten(0.025, props.theme.palette.background.default)};
-
-    [data-play='true'] {
-      transform: scale(1);
-      width: ${(props) => props.theme.spacing(2.5)}px;
-    }
-
-    [data-title='true'] {
-      transform: translateX(${(props) => props.theme.spacing(1)}px);
-    }
+    ${activeStyle}
   }
+
+  ${(props) => (props.isPlaying ? activeStyle : '')}
 `
 
 const NumberLabel = styled(Typography).attrs(() => ({

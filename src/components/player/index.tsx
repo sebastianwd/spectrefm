@@ -5,7 +5,7 @@ import PlayIcon from '@material-ui/icons/PlayArrowRounded'
 import PauseIcon from '@material-ui/icons/PauseCircleFilledRounded'
 import SkipNextIcon from '@material-ui/icons/SkipNextRounded'
 import SkipPreviousIcon from '@material-ui/icons/SkipPreviousRounded'
-import usePlaylistState from '~/hooks/use-playlist-state'
+import usePlaylist from '~/hooks/use-playlist'
 import { useStoreState } from '~/hooks'
 import useMusicPlayer from '~/hooks/use-music-player'
 
@@ -18,7 +18,7 @@ const Player = (props: Props) => {
 
   const { onPlayPause } = useMusicPlayer()
 
-  const { currentTrack = {} } = usePlaylistState()
+  const { currentTrack = {}, playNext, playPrev } = usePlaylist()
 
   const playerState = useStoreState((state) => state.player)
 
@@ -43,13 +43,13 @@ const Player = (props: Props) => {
         </div>
       </CurrentTrack>
       <MainControls>
-        <IconButton aria-label="play previous">
+        <IconButton aria-label="play previous" onClick={playPrev}>
           <SkipPreviousIcon />
         </IconButton>
         <IconButton aria-label="play or pause" onClick={() => onPlayPause()}>
           <PlayPauseIcon fontSize="large" />
         </IconButton>
-        <IconButton aria-label="play next">
+        <IconButton aria-label="play next" onClick={playNext}>
           <SkipNextIcon />
         </IconButton>
       </MainControls>

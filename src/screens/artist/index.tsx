@@ -9,6 +9,7 @@ import { placeholders } from '~/constants'
 import { useStoreState } from '~/hooks'
 import { Tracks, SimlarArtists, Albums } from './components'
 import useMusicPlayer from '~/hooks/use-music-player'
+import usePlaylist from '~/hooks/use-playlist'
 
 interface Props {
   artist: Artist
@@ -23,9 +24,33 @@ const ArtistScreen: React.FC<Props> = (props) => {
 
   const playerState = useStoreState((state) => state.player)
 
+  const { currentTrack = {}, playNext } = usePlaylist()
+
   const handleChange = (_: any, newValue: string) => setValue(newValue)
 
-  const { onPlay, onPause, onProgress, onDuration, onEnded } = useMusicPlayer()
+  const {
+    onPlay,
+    onPause,
+    onProgress,
+    onDuration,
+    onEnded,
+    playTrack,
+    updateCurrentTrack,
+  } = useMusicPlayer()
+
+  const onPlayerError = () => {
+    const { videoIds = [] } = currentTrack
+
+    if (videoIds.length > 1) {
+      playTrack({ videoId: videoIds[1] })
+
+      updateCurrentTrack({ videoIds: [] })
+
+      return
+    }
+
+    playNext()
+  }
 
   return (
     <>
@@ -67,6 +92,7 @@ const ArtistScreen: React.FC<Props> = (props) => {
             onPause={onPause}
             onProgress={onProgress}
             onDuration={onDuration}
+            onError={onPlayerError}
             onEnded={onEnded}
             config={{ onUnstarted: () => {} } as any}
           />

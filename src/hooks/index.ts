@@ -4,6 +4,8 @@ import { StoreModel } from '~/state'
 
 const typedHooks = createTypedHooks<StoreModel>()
 
+export const useStore = typedHooks.useStore
+
 export const useStoreActions = typedHooks.useStoreActions
 
 export const useStoreDispatch = typedHooks.useStoreDispatch
