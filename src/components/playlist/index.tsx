@@ -1,17 +1,21 @@
 import { map } from 'lodash'
 import { useCallback, useMemo } from 'react'
-import { useApolloClient } from '@apollo/client'
-import { trackYoutubeIdsQuery } from '~/gql/queries'
-import { Track, TrackYoutubeIdsQuery } from '~/__generated__/graphql'
+import { Track } from '~/__generated__/graphql'
 import TrackComponent from '../track'
 import useMusicPlayer from '~/hooks/use-music-player'
 import usePlaylist from '~/hooks/use-playlist'
+import { OptionalExceptFor } from '~/index'
 
-interface Props {
-  tracks: Track[]
+type PlaylistTrack = OptionalExceptFor<Track, 'artistName' | 'title'> & {
+  albumTitle?: string
 }
 
-function formatTracks(tracks: Track[]) {
+interface Props {
+  tracks: PlaylistTrack[]
+  strictAlbumSearch?: boolean
+}
+
+function formatTracks(tracks: PlaylistTrack[]) {
   return map(tracks, (track) => {
     return {
       track: track.title,
@@ -21,37 +25,25 @@ function formatTracks(tracks: Track[]) {
 }
 
 const Playlist = (props: Props) => {
-  const { tracks } = props
+  const { tracks, strictAlbumSearch } = props
 
   const { setCurrentTrackByIndex, setQueue, searchAndPlay } = useMusicPlayer()
 
   const { currentTrack } = usePlaylist()
 
-  const client = useApolloClient()
-
   const queueFormattedTracks = useMemo(() => formatTracks(tracks), [tracks])
 
   const onPlayClick = useCallback(
-    async (track: Track, index: number) => {
+    async (track: PlaylistTrack, index: number) => {
       setQueue(queueFormattedTracks)
 
-      const { data: videoData } = await client.query<TrackYoutubeIdsQuery>({
-        query: trackYoutubeIdsQuery,
-        variables: {
-          artistName: track.artistName,
-          trackTitle: track.title,
-          limit: 2,
-        },
+      setCurrentTrackByIndex({ index })
+
+      searchAndPlay({
+        artist: track.artistName,
+        track: track.title,
+        album: strictAlbumSearch ? track.albumTitle : undefined,
       })
-
-      if (videoData.trackYoutubeIds) {
-        setCurrentTrackByIndex({ index })
-
-        searchAndPlay({
-          artist: track.artistName,
-          track: track.title,
-        })
-      }
     },
     [queueFormattedTracks]
   )
@@ -60,7 +52,7 @@ const Playlist = (props: Props) => {
     <>
       {map(tracks, (track, index) => (
         <TrackComponent
-          key={track.id}
+          key={`${track.artistName}${track.title}`}
           number={index + 1}
           title={track.title}
           playcount={track.playcount}

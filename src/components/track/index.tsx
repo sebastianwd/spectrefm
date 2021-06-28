@@ -42,7 +42,7 @@ const Track = (props: Props) => {
       </IconButton>
       <TitleContainer>
         {loading ? (
-          <CircularProgress size={16} />
+          <CircularProgress size={16} style={{ marginRight: 4 }} />
         ) : (
           <PlayArrow fontSize="small" data-play />
         )}
@@ -82,7 +82,7 @@ const activeStyle = css`
 const Container = styled(ListItem)<{ isPlaying: boolean | undefined }>`
   display: flex;
   flex-direction: center;
-  height: ${(props) => props.theme.spacing(6)}px;
+  height: ${(props) => props.theme.spacing(5.5)}px;
   border-radius: ${(props) => props.theme.spacing(3)}px;
   transition: all 0.3s ease-in-out 60ms;
 

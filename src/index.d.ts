@@ -13,3 +13,6 @@ declare module '*.png' {
   const value: any
   export default value
 }
+
+export type OptionalExceptFor<T, TRequired extends keyof T> = Partial<T> &
+  Pick<T, TRequired>

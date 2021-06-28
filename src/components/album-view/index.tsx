@@ -6,29 +6,35 @@ import styled from 'styled-components'
 
 interface Props {
   title: string
+  year: string
   coverImage?: string | null
+  description?: string | null
   onClick?: () => void
 }
 
 const AlbumCard: React.FC<Props> = (props) => {
-  const { title, coverImage, onClick } = props
+  const { title, coverImage, description, onClick, year } = props
 
   return (
-    <Container onClick={onClick}>
+    <Container>
       <ImageContainer>
         {coverImage && (
           <Image
             src={coverImage}
             alt={`Album cover for '${title}'`}
-            width={240}
-            height={240}
+            width={168}
+            height={168}
           />
         )}
         <StyledPlayArrowIcon />
       </ImageContainer>
-      <Typography variant="caption" align="center">
-        {title}
-      </Typography>
+      <InfoContainer>
+        <Typography variant="subtitle2">{year}</Typography>
+        <Typography onClick={onClick} variant="h4" style={{ fontWeight: 200 }}>
+          {title}
+        </Typography>
+        {description && <Typography variant="body2">{description}</Typography>}
+      </InfoContainer>
     </Container>
   )
 }
@@ -48,6 +54,8 @@ const StyledPlayArrowIcon = styled(PlayArrowIcon)`
 const ImageContainer = styled.div`
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
+  align-self: flex-start;
 
   &::after {
     content: '';
@@ -72,11 +80,12 @@ const ImageContainer = styled.div`
   }
 `
 
+const InfoContainer = styled.div`
+  padding: ${(props) => props.theme.spacing(1, 1.5)};
+`
+
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
 `
 
 export default AlbumCard

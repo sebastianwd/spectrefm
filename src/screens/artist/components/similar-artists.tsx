@@ -70,6 +70,7 @@ const ScrollBar = styled(SimpleBar)`
 const Content = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-column-gap: ${(props) => props.theme.spacing(0.5)}px;
   overflow-y: auto;
 `
 

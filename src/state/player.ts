@@ -97,11 +97,15 @@ export const playerModel: PlayerModel = {
   searchAndPlay: thunk(async (actions, payload, { getStoreActions }) => {
     const apolloClient = initializeApollo()
 
+    const trackTitle = payload.album
+      ? `${payload.album} ${payload.track}`
+      : payload.track
+
     const { data: videoData } = await apolloClient.query<TrackYoutubeIdsQuery>({
       query: trackYoutubeIdsQuery,
       variables: {
         artistName: payload.artist,
-        trackTitle: payload.track,
+        trackTitle,
         limit: 4,
       },
     })
@@ -125,7 +129,7 @@ export const playerModel: PlayerModel = {
     })
 
     getStoreActions().playlist.updateCurrentTrack({
-      album: albumData.albumByTrack?.title,
+      album: payload.album || albumData.albumByTrack?.title,
       albumImageUrl: albumData.albumByTrack?.coverImage,
     })
   }),

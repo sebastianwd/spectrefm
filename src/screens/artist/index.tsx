@@ -101,7 +101,7 @@ const ArtistScreen: React.FC<Props> = (props) => {
       <Grid container>
         <Content item xs={12} md={8}>
           <TabContext value={value}>
-            <TabsContainer>
+            <TabsContainer style={{ marginBottom: 8 }}>
               <Tabs
                 value={value}
                 indicatorColor="secondary"

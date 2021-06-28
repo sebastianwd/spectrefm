@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Link from 'next/link'
 import { Typography } from '@material-ui/core'
 import { transparentize } from 'polished'
@@ -23,11 +23,25 @@ const SimilarArtistCard: React.FC<Props> = (props) => {
 }
 
 const Background = styled.div<{ backgroundImage?: string | null }>`
+  ${(props) =>
+    props.backgroundImage
+      ? css`
+          background-image: url(${props.backgroundImage});
+          background-position: center 10%;
+          background-repeat: no-repeat;
+          background-size: cover;
+        `
+      : css`
+          background-image: -webkit-radial-gradient(
+            top,
+            circle farthest-corner,
+            #252529 0,
+            rgba(18, 18, 20, 0.854902) 80%
+          );
+        `}
+
   height: 250px;
-  background-image: url(${(props) => props.backgroundImage});
-  background-position: center 10%;
-  background-repeat: no-repeat;
-  background-size: cover;
+
   transition: all 0.3s ease;
   position: absolute;
   height: 100%;
