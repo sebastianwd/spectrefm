@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { Action, action, Thunk, thunk } from 'easy-peasy'
 import { isUndefined } from 'lodash'
+import getArtistTitle from 'get-artist-title'
 import { urls } from '~/constants'
 import { initializeApollo } from '~/gql/apollo'
 import { albumByTrackQuery, trackYoutubeIdsQuery } from '~/gql/queries'
@@ -97,9 +98,17 @@ export const playerModel: PlayerModel = {
   searchAndPlay: thunk(async (actions, payload, { getStoreActions }) => {
     const apolloClient = initializeApollo()
 
-    const trackTitle = payload.album
-      ? `${payload.album} ${payload.track}`
-      : payload.track
+    const getTrackTitle = () => {
+      if (payload.album) {
+        return getArtistTitle(`${payload.album} - ${payload.track}`)?.join(
+          ' - '
+        )
+      }
+
+      return payload.track
+    }
+
+    const trackTitle = getTrackTitle()
 
     const { data: videoData } = await apolloClient.query<TrackYoutubeIdsQuery>({
       query: trackYoutubeIdsQuery,

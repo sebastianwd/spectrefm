@@ -1,6 +1,8 @@
 import React from 'react'
 import { keyBy, map } from 'lodash'
-import { Grid } from '@material-ui/core'
+import { Grid, Button, Typography } from '@material-ui/core'
+import ArrowBackIcon from '@material-ui/icons/ArrowBackIos'
+import styled from 'styled-components'
 import { useAlbumsByArtistQuery } from '~/generated/graphql'
 import { AlbumCard } from '~/components'
 import Playlist from '~/components/playlist'
@@ -24,33 +26,40 @@ const Albums: React.FC<Props> = (props) => {
 
   const albumsByTitle = React.useMemo(
     () => keyBy(data?.albumsByArtist, 'title'),
-    [data?.albumsByArtist]
+    [artistName, data?.albumsByArtist]
   )
 
   if (loading) {
     return null
   }
 
-  if (activeAlbum) {
-    const album = albumsByTitle[activeAlbum]
+  const currentAlbum = activeAlbum && albumsByTitle[activeAlbum]
+
+  if (currentAlbum) {
     return (
-      <>
+      <AlbumViewContainer>
+        <Button onClick={() => setActiveAlbum(undefined)}>
+          <ArrowBackIcon />
+          <Typography>Back to albums</Typography>
+        </Button>
         <AlbumView
-          coverImage={album.coverImage}
-          title={album.title}
-          description={album.description}
-          year={album.year || ''}
-          onClick={() => onAlbumCardClick(album.title)}
+          coverImage={currentAlbum.coverImage}
+          title={currentAlbum.title}
+          description={currentAlbum.description}
+          year={currentAlbum.year || ''}
+          onClick={() => onAlbumCardClick(currentAlbum.title)}
         />
-        <Playlist
-          strictAlbumSearch
-          tracks={map(album.tracks, (track) => ({
-            artistName,
-            title: track,
-            albumTitle: album.title,
-          }))}
-        />
-      </>
+        <div>
+          <Playlist
+            strictAlbumSearch
+            tracks={map(currentAlbum.tracks, (track) => ({
+              artistName,
+              title: track,
+              albumTitle: currentAlbum.title,
+            }))}
+          />
+        </div>
+      </AlbumViewContainer>
     )
   }
 
@@ -72,5 +81,15 @@ const Albums: React.FC<Props> = (props) => {
     </Grid>
   )
 }
+
+const AlbumViewContainer = styled.div`
+  > :not(:last-child) {
+    margin-bottom: ${(props) => props.theme.spacing(1)}px;
+  }
+
+  > :first-child {
+    margin-bottom: ${(props) => props.theme.spacing(2)}px;
+  }
+`
 
 export default Albums

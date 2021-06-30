@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import {
   ListItem,
   IconButton,
@@ -17,7 +17,7 @@ interface Props {
   onPlayClick?: () => Promise<void>
 }
 
-const Track = (props: Props) => {
+const Track = memo((props: Props) => {
   const { title, playcount, number, onPlayClick, isPlaying } = props
 
   const [loading, setLoading] = useState(false)
@@ -33,7 +33,7 @@ const Track = (props: Props) => {
   }
 
   return (
-    <Container button onClick={onClick} isPlaying={isPlaying}>
+    <Container button onClick={onClick} $isPlaying={isPlaying}>
       <NumberLabel variant="caption" color="textPrimary" noWrap>
         {number}
       </NumberLabel>
@@ -63,7 +63,9 @@ const Track = (props: Props) => {
       )}
     </Container>
   )
-}
+})
+
+Track.displayName = 'Track'
 
 const activeStyle = css`
   background-color: ${(props) =>
@@ -79,7 +81,7 @@ const activeStyle = css`
   }
 `
 
-const Container = styled(ListItem)<{ isPlaying: boolean | undefined }>`
+const Container = styled(ListItem)<{ $isPlaying: boolean | undefined }>`
   display: flex;
   flex-direction: center;
   height: ${(props) => props.theme.spacing(5.5)}px;
@@ -104,7 +106,7 @@ const Container = styled(ListItem)<{ isPlaying: boolean | undefined }>`
     ${activeStyle}
   }
 
-  ${(props) => (props.isPlaying ? activeStyle : '')}
+  ${(props) => (props.$isPlaying ? activeStyle : '')}
 `
 
 const NumberLabel = styled(Typography).attrs(() => ({

@@ -1,13 +1,13 @@
 import React from 'react'
 import Img from 'react-cool-img'
-import { TabPanel, TabContext } from '@material-ui/lab'
 import styled, { css } from 'styled-components'
 import ReactPlayer from 'react-player/youtube'
-import { Typography, Tabs, Tab, Grid } from '@material-ui/core'
+import { Typography, Grid } from '@material-ui/core'
 import { Artist } from '~/generated/graphql'
 import { placeholders } from '~/constants'
 import { useStoreState } from '~/hooks'
 import { Tracks, SimlarArtists, Albums } from './components'
+import { Tabs } from '~/components'
 import useMusicPlayer from '~/hooks/use-music-player'
 import usePlaylist from '~/hooks/use-playlist'
 
@@ -100,26 +100,18 @@ const ArtistScreen: React.FC<Props> = (props) => {
       </Grid>
       <Grid container>
         <Content item xs={12} md={8}>
-          <TabContext value={value}>
-            <TabsContainer style={{ marginBottom: 8 }}>
-              <Tabs
-                value={value}
-                indicatorColor="secondary"
-                textColor="inherit"
-                onChange={handleChange}
-                aria-label="tabs"
-              >
-                <Tab label="top tracks" value="1" />
-                <Tab label="albums" value="2" />
-              </Tabs>
-            </TabsContainer>
-            <TabPanel value="1">
+          <Tabs>
+            <StyledTabList>
+              <Tabs.TabButton>top tracks</Tabs.TabButton>
+              <Tabs.TabButton>albums</Tabs.TabButton>
+            </StyledTabList>
+            <Tabs.LazyTabPanel>
               <Tracks artistName={artist.name} />
-            </TabPanel>
-            <TabPanel value="2">
+            </Tabs.LazyTabPanel>
+            <Tabs.LazyTabPanel>
               <Albums artistName={artist.name} />
-            </TabPanel>
-          </TabContext>
+            </Tabs.LazyTabPanel>
+          </Tabs>
         </Content>
         <Grid item xs={12} md={4}>
           <SimlarArtists artistName={artist.name} />
@@ -129,17 +121,15 @@ const ArtistScreen: React.FC<Props> = (props) => {
   )
 }
 
-const TabsContainer = styled.div`
+const StyledTabList = styled(Tabs.TabList)`
   justify-content: left;
-  display: flex;
+  margin-bottom: ${(props) => props.theme.spacing(1)}px;
 
-  button {
-    transition: all 0.2s;
-  }
-
-  .MuiTab-wrapper {
+  ${Tabs.TabButton} {
     ${(props): any => ({ ...props.theme.typography.h5 })};
     font-weight: 500;
+    min-width: ${(props) => props.theme.spacing(20)}px;
+    transition: all 0.2s;
   }
 `
 
@@ -147,10 +137,6 @@ const Content = styled(Grid)`
   padding: ${(props) => props.theme.spacing(2)}px;
   padding-top: 0;
   transform: translateY(-${(props) => props.theme.spacing(2)}px);
-
-  .MuiTabPanel-root {
-    padding: 0;
-  }
 `
 
 const TextContainer = styled.div`

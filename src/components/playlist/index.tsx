@@ -1,5 +1,5 @@
 import { map } from 'lodash'
-import { useCallback, useMemo } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 import { Track } from '~/__generated__/graphql'
 import TrackComponent from '../track'
 import useMusicPlayer from '~/hooks/use-music-player'
@@ -24,14 +24,14 @@ function formatTracks(tracks: PlaylistTrack[]) {
   })
 }
 
-const Playlist = (props: Props) => {
+const Playlist = memo((props: Props) => {
   const { tracks, strictAlbumSearch } = props
 
   const { setCurrentTrackByIndex, setQueue, searchAndPlay } = useMusicPlayer()
 
   const { currentTrack } = usePlaylist()
 
-  const queueFormattedTracks = useMemo(() => formatTracks(tracks), [tracks])
+  const queueFormattedTracks = useMemo(() => formatTracks(tracks), [])
 
   const onPlayClick = useCallback(
     async (track: PlaylistTrack, index: number) => {
@@ -39,7 +39,7 @@ const Playlist = (props: Props) => {
 
       setCurrentTrackByIndex({ index })
 
-      searchAndPlay({
+      await searchAndPlay({
         artist: track.artistName,
         track: track.title,
         album: strictAlbumSearch ? track.albumTitle : undefined,
@@ -62,6 +62,8 @@ const Playlist = (props: Props) => {
       ))}
     </>
   )
-}
+})
+
+Playlist.displayName = 'Playlist'
 
 export default Playlist

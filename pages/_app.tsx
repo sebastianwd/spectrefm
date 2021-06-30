@@ -6,6 +6,7 @@ import { CssBaseline } from '@material-ui/core'
 import { AppProvider } from '~/providers'
 import { MainLayout } from '~/layouts'
 import theme from '~/theme'
+import 'react-tabs/style/react-tabs.css'
 
 const App: React.FC<AppProps> = (props) => {
   const { Component, pageProps } = props
